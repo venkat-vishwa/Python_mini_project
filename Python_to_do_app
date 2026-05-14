@@ -1,1 +1,89 @@
+# Simple To-Do List Application
 
+Task = []
+
+def view_menu():
+    print("\n1. Add Task")
+    print("2. View Task")
+    print("3. Mark Task")
+    print("4. Delete Task")
+    print("5. Exit")
+
+def add_task():
+    task = input("Enter a task: ")
+    Task.append({"task": task, "done": False})
+    print(f"Task '{task}' has been added")
+
+def view_task():
+    if not Task:
+        print("No task has been added yet")
+        return
+
+    print("\nYour Tasks:")
+    for index, task in enumerate(Task, start=1):
+        status = "✅" if task["done"] else "❌"
+        print(f"{index}. {task['task']} {status}")
+
+def mark_as_done():
+    view_task()
+
+    if not Task:
+        return
+
+    try:
+        task_no = int(input("Enter task number: ")) - 1
+
+        if 0 <= task_no < len(Task):
+            Task[task_no]["done"] = True
+            print("Task marked as done")
+        else:
+            print("Invalid task number")
+
+    except ValueError:
+        print("Please enter a valid number")
+
+def delete_task():
+    view_task()
+
+    if not Task:
+        return
+
+    try:
+        task_no = int(input("Enter task number: ")) - 1
+
+        if 0 <= task_no < len(Task):
+            removed_task = Task.pop(task_no)
+            print(f"Deleted task: {removed_task['task']}")
+        else:
+            print("Invalid task number")
+
+    except ValueError:
+        print("Please enter a valid number")
+
+while True:
+    view_menu()
+
+    try:
+        choice = int(input("Enter your choice: "))
+
+        if choice == 1:
+            add_task()
+
+        elif choice == 2:
+            view_task()
+
+        elif choice == 3:
+            mark_as_done()
+
+        elif choice == 4:
+            delete_task()
+
+        elif choice == 5:
+            print("Exiting To-Do App...")
+            break
+
+        else:
+            print("Invalid choice")
+
+    except ValueError:
+        print("Please enter a valid number")
